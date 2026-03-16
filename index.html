@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOULIA | L'IA au Service du Cameroun</title>
+    <title>DOULIA | L'IA au Service du Cameroun - Grille Tarifaire</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -91,6 +91,11 @@
             text-shadow: 0 0 15px rgba(204, 255, 0, 0.3);
         }
 
+        .formula-font {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 1px;
+        }
+
         /* --- BUTTONS --- */
         .btn-cta {
             display: inline-block;
@@ -132,6 +137,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: 0.3s;
         }
+        
         .print-btn:hover { background: var(--accent-lime); color: var(--primary-dark); }
 
         /* --- HERO --- */
@@ -149,6 +155,7 @@
             margin-bottom: 30px;
             filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
             animation: pulseLogo 3s infinite ease-in-out;
+            border-radius: 10px;
         }
 
         @keyframes pulseLogo {
@@ -170,26 +177,56 @@
             font-weight: 300;
         }
 
-        /* --- VISION --- */
-        .vision-card {
+        /* --- SECTORS (INTERACTIVE) --- */
+        .sector-box {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: 4px;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 50px;
             backdrop-filter: blur(10px);
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .vision-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--accent-lime);
         }
 
-        /* --- PACKS --- */
+        .sector-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .sector-btn {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .sector-btn:hover, .sector-btn.active {
+            background: rgba(204, 255, 0, 0.1);
+            border-color: var(--accent-lime);
+            color: var(--accent-lime);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
+        }
+
+        #sector-content {
+            font-style: italic;
+            color: white;
+            font-size: 1.1rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- PACKS & TARIFFS --- */
         .pack-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -199,9 +236,10 @@
         .pack-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             transition: all 0.4s ease;
+            position: relative;
         }
 
         .pack-card:hover {
@@ -210,12 +248,27 @@
             transform: translateY(-5px);
         }
 
+        .badge-popular {
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            background: var(--accent-lime);
+            color: var(--primary-dark);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 2;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+
         .pack-img {
-            height: 220px;
+            height: 200px;
             width: 100%;
             object-fit: cover;
             filter: grayscale(30%) brightness(0.8);
             transition: 0.5s;
+            border-bottom: 2px solid var(--accent-lime);
         }
 
         .pack-card:hover .pack-img {
@@ -223,6 +276,51 @@
         }
 
         .pack-content { padding: 30px; }
+
+        .price-container {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin: 20px 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .price-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+        .price-value { font-size: 2rem; font-weight: 800; color: white; line-height: 1.2; margin-bottom: 15px; }
+        .price-value span { font-size: 1rem; font-weight: normal; color: var(--text-dim); }
+        .price-value.maint { font-size: 1.5rem; color: var(--accent-lime); margin-bottom: 0; }
+        .price-prefix { font-size: 0.9rem; font-weight: 400; color: var(--text-dim); display: block; margin-bottom: -5px; }
+
+        /* Accordion in Packs */
+        .accordion-btn {
+            width: 100%;
+            background: rgba(204, 255, 0, 0.05);
+            color: white;
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            padding: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .accordion-btn:hover { background: rgba(204, 255, 0, 0.2); }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        
+        .accordion-content.active {
+            max-height: 500px;
+            padding-top: 20px;
+        }
 
         .feature-list { list-style: none; }
         .feature-list li {
@@ -241,22 +339,64 @@
             font-weight: bold;
         }
 
-        /* --- SERVICES SUR-MESURE --- */
+        /* --- SERVICES SUR-MESURE & CALCULATOR --- */
         .services-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 60px;
             background: rgba(255,255,255,0.02);
             padding: 60px;
-            border-radius: 4px;
+            border-radius: 8px;
             border: 1px solid var(--glass-border);
+            text-align: center;
         }
 
-        .services-img img {
-            width: 100%;
-            border-radius: 4px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        .formula-box {
+            background: rgba(0, 11, 24, 0.8);
+            border: 1px solid var(--accent-lime);
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 30px 0;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
         }
+
+        .formula-text {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .formula-text span { color: var(--accent-lime); }
+
+        /* ROI Calculator */
+        .calculator-box {
+            background: var(--primary-dark);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .calc-input-group { margin-bottom: 20px; }
+        .calc-input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dim); }
+        .calc-input-group input { 
+            width: 100%; padding: 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3); color: white; font-family: 'Montserrat', sans-serif;
+        }
+        .calc-input-group input:focus { outline: none; border-color: var(--accent-lime); }
+        
+        .calc-result {
+            background: rgba(204, 255, 0, 0.1);
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 4px solid var(--accent-lime);
+            margin-top: 20px;
+        }
+
+        .calc-result-title { font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); }
+        .calc-result-value { font-size: 2rem; font-weight: bold; color: var(--accent-lime); }
 
         /* --- DOULIA LOVE (AI PULSE) --- */
         .logo-magique-container {
@@ -295,33 +435,43 @@
             border-top: 1px solid var(--glass-border);
             text-align: center;
         }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item { font-size: 1.1rem; }
+        .contact-item i { color: var(--accent-lime); margin-right: 10px; }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
             .hero-content h1 { font-size: 2.5rem; }
-            .services-wrapper { flex-direction: column; padding: 30px; }
-            .commitment-grid { grid-template-columns: 1fr 1fr; }
+            .formula-text { font-size: 1rem; }
         }
 
         /* --- PDF PRINT OVERRIDE --- */
         @media print {
             body { background: white !important; color: black !important; }
-            .ai-glow, #particles-js, .print-btn { display: none !important; }
+            .ai-glow, #particles-js, .print-btn, .sector-box, .calculator-box, .accordion-btn { display: none !important; }
             .hero-logo { filter: none; background: white; }
-            .pack-card, .vision-card, .services-wrapper { 
-                border: 1px solid #eee !important; 
-                background: white !important; 
-                color: black !important;
-                page-break-inside: avoid;
+            .pack-card, .services-wrapper { 
+                 border: 1px solid #eee !important; 
+                 background: white !important; 
+                 color: black !important;
+                 page-break-inside: avoid;
             }
             .highlight-text, .pack-title { color: #001f3f !important; font-weight: bold; }
-            .hero-content p, .feature-list li { color: #333 !important; }
+            .hero-content p, .feature-list li, .price-value, .price-value.maint { color: #333 !important; }
+            .price-value.maint { color: #84cc16 !important; }
+            .accordion-content { max-height: none !important; display: block !important; padding-top: 10px; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Neural Network Background -->
     <canvas id="particles-js"></canvas>
     <div class="ai-glow"></div>
 
@@ -329,132 +479,171 @@
         <i class="fa-solid fa-file-pdf"></i>
     </button>
 
-    <!-- HERO SECTION -->
     <section id="hero">
         <div class="container hero-content">
             <img src="https://i.postimg.cc/LsPpGcLD/LOGO_DOULIA_OFFICIEL_fond_blanc.png" alt="Logo DOULIA" class="hero-logo">
-            <h1>L'Intelligence Artificielle <br><span class="highlight-text">Au Service de la Croissance Camerounaise</span></h1>
-            <p>Propulsez votre entreprise dans une nouvelle ère d'efficacité et de rentabilité. DOULIA fusionne l'expertise technologique mondiale et la réalité du marché du Cameroun.</p>
-            <a href="#contact" class="btn-cta">Diagnostic Gratuit 30 min</a>
+            <h1>L'Intelligence Artificielle <br><span class="highlight-text">Au Service de Votre ROI</span></h1>
+            <p>Nous ne vendons pas du code. Nous déployons des collaborateurs virtuels infatigables qui propulsent votre croissance, optimisent vos processus et sécurisent vos décisions au Cameroun.</p>
+            <a href="https://consultant-doulia.vercel.app/" target="_blank" class="btn-cta">
+                <i class="fa-solid fa-robot mr-2"></i> Diagnostic Gratuit 30 min
+            </a>
         </div>
     </section>
 
-    <!-- VISION & MISSION -->
-    <section id="vision" class="section">
+    <section class="section pb-0" style="padding-top: 50px;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
-                <div class="vision-text">
-                    <h2 class="highlight-text" style="margin-bottom: 10px;">NOTRE VISION & MISSION</h2>
-                    <p style="font-size: 1.2rem; margin-bottom: 30px; font-weight: 300;">L’IA n’est plus une option, c’est votre plus grand avantage compétitif.</p>
-                    
-                    <div class="vision-card" style="margin-bottom: 20px;">
-                        <h3>Vision Stratégique</h3>
-                        <p>Devenir la référence absolue des solutions d'intelligence artificielle au Cameroun.</p>
-                    </div>
-
-                    <div class="vision-card">
-                        <h3>Notre Mission</h3>
-                        <p>Démocratiser la puissance de l'IA pour la rendre concrète, accessible et immédiatement profitable pour les entreprises locales.</p>
-                    </div>
+            <div class="sector-box">
+                <h3 style="margin-bottom: 20px;"><i class="fa-solid fa-crosshairs highlight-text"></i> Sélectionnez votre secteur</h3>
+                <div class="sector-buttons" id="sector-buttons">
+                    <button onclick="changeSector('sante')" class="sector-btn">Santé & Cliniques</button>
+                    <button onclick="changeSector('finance')" class="sector-btn">Finance & Assurances</button>
+                    <button onclick="changeSector('commerce')" class="sector-btn">E-commerce & Retail</button>
+                    <button onclick="changeSector('services')" class="sector-btn">Services B2B</button>
+                    <button onclick="changeSector('restauration')" class="sector-btn">Restauration & Hôtellerie</button>
+                    <button onclick="changeSector('industrie')" class="sector-btn">Industrie & Logistique</button>
                 </div>
-                <div style="position: relative;">
-                    <img src="https://i.postimg.cc/tCMtf62T/Doulia_Magique.jpg" alt="IA Cameroun" style="width: 100%; border-radius: 4px; border: 1px solid var(--glass-border);">
-                    <div style="position: absolute; bottom: 20px; right: 20px; background: var(--accent-lime); color: #000; padding: 15px; font-weight: 800;">
-                        100% LOCAL
-                    </div>
+                <div id="sector-content">
+                    "Cliquez sur votre secteur d'activité pour découvrir l'impact immédiat de nos solutions sur votre rentabilité."
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PACKS SOLUTIONS -->
     <section id="packs" class="section">
         <div class="container">
             <div style="text-align: center; margin-bottom: 70px;">
-                <h2 style="font-size: 3rem;">Nos Packs <span class="highlight-text">Solutions</span></h2>
-                <p style="letter-spacing: 5px; opacity: 0.7;">L'EXCELLENCE OPÉRATIONNELLE</p>
+                <h2 style="font-size: 3rem;">Nos Solutions <span class="highlight-text">Standards</span></h2>
+                <p style="letter-spacing: 5px; opacity: 0.7; text-transform: uppercase;">Prêtes à être déployées</p>
             </div>
 
             <div class="pack-grid">
-                <!-- Pack 1 -->
                 <article class="pack-card">
                     <img src="https://i.postimg.cc/kX1fmzXD/Doulia_Connect.jpg" alt="Doulia Connect" class="pack-img">
                     <div class="pack-content">
                         <h3 class="pack-title highlight-text">1. DOULIA Connect</h3>
-                        <p style="font-style: italic; margin-bottom: 20px; font-size: 0.9rem;">Le service client qui ne dort jamais.</p>
-                        <ul class="feature-list">
-                            <li><strong>Automatisation 24/7 :</strong> Assistants WhatsApp & Web intelligents.</li>
-                            <li><strong>Lead Scoring :</strong> Qualification automatique des prospects.</li>
-                            <li><strong>Support Multilingue :</strong> Français, Anglais et Pidgin.</li>
-                            <li><strong>Réservations :</strong> Synchronisation agenda 24h/24.</li>
-                        </ul>
+                        <p style="font-style: italic; font-size: 0.9rem; color: var(--text-dim);">Le service client qui ne dort jamais.</p>
+                        
+                        <div class="price-container">
+                            <p class="price-label">Installation (Set-up)</p>
+                            <p class="price-value">300 000 <span>FCFA</span></p>
+                            <p class="price-label" style="margin-top:15px;">Maintenance IA / Mois</p>
+                            <p class="price-value maint">35 000 <span>FCFA</span></p>
+                        </div>
+
+                        <button class="accordion-btn" onclick="toggleAccordion('acc1', 'icon1')">
+                            Détail des fonctionnalités <i class="fa-solid fa-chevron-down" id="icon1"></i>
+                        </button>
+                        <div id="acc1" class="accordion-content">
+                            <ul class="feature-list">
+                                <li><strong>Assistants 24/7 :</strong> WhatsApp & Web intelligents.</li>
+                                <li><strong>Lead Scoring :</strong> Qualification automatique des prospects.</li>
+                                <li><strong>Support Natif :</strong> Français, Anglais.</li>
+                                <li><strong>Réservations :</strong> Synchronisation agenda en temps réel.</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
-                <!-- Pack 2 -->
                 <article class="pack-card">
-                    <img src="https://i.postimg.cc/YqsfVFbS/Doulia_Process.jpg" alt="Doulia Process" class="pack-img">
+                    <div class="badge-popular">LE PLUS DEMANDÉ</div>
+                    <img src="https://i.postimg.cc/YqsfVFbS/Doulia_Process.jpg" alt="Doulia Process" class="pack-img" style="border-color: #fff;">
                     <div class="pack-content">
-                        <h3 class="pack-title highlight-text">2. DOULIA Process</h3>
-                        <p style="font-style: italic; margin-bottom: 20px; font-size: 0.9rem;">L'automatisation de la routine.</p>
-                        <ul class="feature-list">
-                            <li><strong>Audit Processus :</strong> Identification des goulots d'étranglement.</li>
-                            <li><strong>Agents IA Internes :</strong> Suppression des saisies manuelles.</li>
-                            <li><strong>Rapports Auto :</strong> Génération de rapports complexes instantanés.</li>
-                            <li><strong>Veille Stratégique :</strong> Surveillance continue du marché.</li>
-                        </ul>
+                        <h3 class="pack-title highlight-text" style="color: white;">2. DOULIA Process</h3>
+                        <p style="font-style: italic; font-size: 0.9rem; color: var(--text-dim);">L'automatisation absolue de vos routines.</p>
+                        
+                        <div class="price-container">
+                            <p class="price-label">Installation (Set-up)</p>
+                            <span class="price-prefix">À partir de</span>
+                            <p class="price-value">550 000 <span>FCFA</span></p>
+                            <p class="price-label" style="margin-top:15px;">Maintenance IA / Mois</p>
+                            <p class="price-value maint">100 000 <span>FCFA</span></p>
+                        </div>
+
+                        <button class="accordion-btn" onclick="toggleAccordion('acc2', 'icon2')">
+                            Détail des fonctionnalités <i class="fa-solid fa-chevron-down" id="icon2"></i>
+                        </button>
+                        <div id="acc2" class="accordion-content">
+                            <ul class="feature-list">
+                                <li><strong>Audit :</strong> Identification des goulots d'étranglement.</li>
+                                <li><strong>Agents IA :</strong> Suppression totale des saisies manuelles.</li>
+                                <li><strong>Rapports :</strong> Génération automatique de documents complexes.</li>
+                                <li><strong>Intégration :</strong> Connexion avec vos outils existants (ERP/CRM).</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
-                <!-- Pack 3 -->
                 <article class="pack-card">
                     <img src="https://i.postimg.cc/Wz96sqVK/Doulia_Insight.jpg" alt="Doulia Insight" class="pack-img">
                     <div class="pack-content">
                         <h3 class="pack-title highlight-text">3. DOULIA Insight</h3>
-                        <p style="font-style: italic; margin-bottom: 20px; font-size: 0.9rem;">Décisions basées sur la donnée.</p>
-                        <ul class="feature-list">
-                            <li><strong>Data Mining :</strong> Valorisation des fichiers Excel dormants.</li>
-                            <li><strong>Algorithmes Prédictifs :</strong> Anticipation de la demande.</li>
-                            <li><strong>Segmentation Client :</strong> Offres ultra-personnalisées.</li>
-                            <li><strong>Tableaux de Bord :</strong> Pilotage KPI en temps réel.</li>
-                        </ul>
+                        <p style="font-style: italic; font-size: 0.9rem; color: var(--text-dim);">L'aide à la décision par la Data.</p>
+                        
+                        <div class="price-container">
+                            <p class="price-label">Installation (Set-up)</p>
+                            <span class="price-prefix">À partir de</span>
+                            <p class="price-value">850 000 <span>FCFA</span></p>
+                            <p class="price-label" style="margin-top:15px;">Maintenance IA / Mois</p>
+                            <p class="price-value maint">150 000 <span>FCFA</span></p>
+                        </div>
+
+                        <button class="accordion-btn" onclick="toggleAccordion('acc3', 'icon3')">
+                            Détail des fonctionnalités <i class="fa-solid fa-chevron-down" id="icon3"></i>
+                        </button>
+                        <div id="acc3" class="accordion-content">
+                            <ul class="feature-list">
+                                <li><strong>Data Mining :</strong> Valorisation des bases de données.</li>
+                                <li><strong>Prédictions :</strong> Algorithmes d'anticipation des ventes.</li>
+                                <li><strong>Dashboards :</strong> Pilotage KPI dynamique en temps réel.</li>
+                                <li><strong>Veille :</strong> Surveillance stratégique automatisée du marché.</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- SERVICES ANNEXES -->
-    <section id="services" class="section">
+    <section id="sur-mesure" class="section">
         <div class="container">
             <div class="services-wrapper">
-                <div class="services-content">
-                    <h2 class="highlight-text">Services Sur-Mesure</h2>
-                    <p style="margin-bottom: 30px;">Nous construisons votre futur écosystème IA.</p>
-                    
-                    <div class="feature-list">
-                        <div style="margin-bottom: 25px;">
-                            <h4>Audits IA Personnalisés</h4>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">Immersion totale pour définir votre feuille de route technologique.</p>
-                        </div>
-                        <div style="margin-bottom: 25px;">
-                            <h4>Formations en Entreprise</h4>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">Acculturation et montée en compétences sur les outils génératifs.</p>
-                        </div>
-                        <div>
-                            <h4>Développement d'Outils</h4>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">ERP, CRM et Applications mobiles nativement dotés d'intelligence artificielle.</p>
-                        </div>
-                    </div>
+                <h2 class="highlight-text" style="font-size: 2.5rem; margin-bottom: 20px;">Logiciels Sur-Mesure & IA Native</h2>
+                <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto; color: var(--text-dim);">
+                    Pour vos projets complexes (ERP, CRM, Applications Mobiles), nous ne facturons pas à l'heure. Nous facturons à la <strong>valeur générée</strong> grâce à notre formule algorithmique transparente :
+                </p>
+
+                <div class="formula-box formula-font">
+                    <p class="formula-text">PRIX = <span>(Temps × Complexité)</span> + Valeur IA + <span>% ROI</span></p>
                 </div>
-                <div class="services-img" style="flex: 1;">
-                    <img src="https://i.postimg.cc/fLNvCh5H/Doulia_Formation.jpg" alt="Formation IA">
+                
+                <p style="font-style: italic; color: var(--text-dim); max-width: 700px; margin: 0 auto;">
+                    "Si une application DOULIA remplace 3 tâches fastidieuses et vous fait gagner des millions par an, son prix reflètera cet impact colossal sur votre trésorerie."
+                </p>
+
+                <div class="calculator-box">
+                    <h3 style="color: white; margin-bottom: 10px; font-size: 1.2rem;"><i class="fa-solid fa-calculator highlight-text mr-2"></i> Simulateur d'Économie Annuelle</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">Estimez l'argent perdu actuellement en tâches manuelles répétitives.</p>
+                    
+                    <div class="calc-input-group">
+                        <label for="employees">Nombre d'employés effectuant des tâches répétitives (saisie, relance, devis) :</label>
+                        <input type="number" id="employees" value="3" min="1" oninput="calculateROI()">
+                    </div>
+                    
+                    <div class="calc-input-group">
+                        <label for="hours">Heures perdues par employé et par jour sur ces tâches :</label>
+                        <input type="number" id="hours" value="2" min="1" max="8" oninput="calculateROI()">
+                    </div>
+
+                    <div class="calc-result">
+                        <p class="calc-result-title">Argent gaspillé par an (estimation basse) :</p>
+                        <p class="calc-result-value" id="roi-result">0 FCFA</p>
+                        <p style="font-size: 0.8rem; margin-top: 10px; color: white;">C'est l'argent que l'IA de DOULIA va conserver dans votre trésorerie dès la première année.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ENGAGEMENT -->
     <section id="commitment" class="section" style="text-align: center;">
         <div class="container">
             <div class="logo-magique-container">
@@ -462,40 +651,43 @@
                 <img src="https://i.postimg.cc/hP5bwmpt/Doulia_Magique_logo.jpg" alt="Doulia Love" class="logo-magique">
             </div>
             <h2 class="highlight-text">L'ENGAGEMENT « DOULIA LOVE »</h2>
-            <p style="max-width: 800px; margin: 20px auto 50px; font-weight: 300;">Un partenaire investi dans votre réussite sur le long terme.</p>
+            <p style="max-width: 800px; margin: 20px auto 50px; font-weight: 300;">Un partenaire profondément investi dans votre réussite sur le long terme.</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                <div class="vision-card"><h4>Expertise Locale</h4><p style="font-size: 0.8rem;">Standard mondial, coeur Camerounais.</p></div>
-                <div class="vision-card"><h4>Focus ROI</h4><p style="font-size: 0.8rem;">Rentabilité mesurable dès le 1er mois.</p></div>
-                <div class="vision-card"><h4>Accompagnement</h4><p style="font-size: 0.8rem;">De la stratégie à l'intégration technique.</p></div>
-                <div class="vision-card"><h4>Veille Constante</h4><p style="font-size: 0.8rem;">Innovation continue pour vos équipes.</p></div>
+                <div class="sector-box" style="margin-bottom:0; padding:20px;"><h4>Expertise Locale</h4><p style="font-size: 0.8rem; margin-top:10px;">Standard mondial, coeur Camerounais.</p></div>
+                <div class="sector-box" style="margin-bottom:0; padding:20px;"><h4>Focus ROI</h4><p style="font-size: 0.8rem; margin-top:10px;">Rentabilité mesurable dès le 1er mois.</p></div>
+                <div class="sector-box" style="margin-bottom:0; padding:20px;"><h4>Confidentialité</h4><p style="font-size: 0.8rem; margin-top:10px;">Sécurité absolue de vos données stratégiques.</p></div>
+                <div class="sector-box" style="margin-bottom:0; padding:20px;"><h4>Veille Constante</h4><p style="font-size: 0.8rem; margin-top:10px;">Innovation continue pour vos équipes.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
     <footer id="contact">
         <div class="container">
-            <h2 class="highlight-text" style="font-size: 2.5rem;">CONTACTEZ-NOUS</h2>
-            <p style="margin: 20px 0;">Prêt à passer à l'étape supérieure ? Diagnostic gratuit de 30 minutes.</p>
+            <h2 class="highlight-text" style="font-size: 2.5rem;">VOTRE TRANSFORMATION DÉBUTE ICI</h2>
+            <p style="margin: 20px 0;">Ne laissez pas vos concurrents prendre l'avantage technologique.</p>
+            
+            <a href="https://consultant-doulia.vercel.app/" target="_blank" class="btn-cta" style="margin-bottom: 40px; background: white;">
+                Démarrer l'Audit Gratuit par IA
+            </a>
 
             <div class="contact-info">
-                <div class="contact-item"><i class="fa-solid fa-globe"></i> www.douliacameroun.com</div>
-                <div class="contact-item"><i class="fa-solid fa-envelope"></i> contact@douliacameroun.com</div>
-                <div class="contact-item"><i class="fa-brands fa-linkedin"></i> Doulia</div>
+                <div class="contact-item"><i class="fa-solid fa-globe"></i> www.doulia.cm</div>
+                <div class="contact-item"><i class="fa-solid fa-envelope"></i> contact@doulia.cm</div>
+                <div class="contact-item"><i class="fa-brands fa-linkedin"></i> DOULIA</div>
             </div>
 
-            <div style="background: rgba(204, 255, 0, 0.1); padding: 30px; border-radius: 4px; display: inline-block; border: 1px solid var(--accent-lime);">
-                <p><strong>Téléphone / WhatsApp :</strong></p>
-                <p>(+237) 6 56 30 48 18 | 6 73 04 31 27 | 6 88 95 40 53</p>
+            <div style="background: rgba(204, 255, 0, 0.1); padding: 30px; border-radius: 8px; display: inline-block; border: 1px solid var(--accent-lime);">
+                <p><strong>Téléphones / Direction Commerciale WhatsApp :</strong></p>
+                <p style="font-size: 1.2rem; font-weight: bold; margin-top: 10px;">(+237) 6 73 04 31 27 | 6 56 30 48 18 | 6 88 95 40 53</p>
             </div>
 
-            <p style="margin-top: 60px; opacity: 0.5; font-size: 0.8rem;">DOULIA : L'Intelligence Artificielle qui parle votre langue et comprend vos défis.</p>
+            <p style="margin-top: 60px; opacity: 0.5; font-size: 0.8rem;">DOULIA © 2026. L'Intelligence Artificielle qui parle votre langue et comprend vos défis.</p>
         </div>
     </footer>
 
     <script>
-        // --- NEURAL NETWORK PARTICLES ---
+        // --- NEURAL NETWORK PARTICLES (Du code de référence) ---
         const canvas = document.getElementById('particles-js');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -552,7 +744,69 @@
         init();
         animate();
 
-        // Reveal animations
+        // --- ACCORDIONS ---
+        function toggleAccordion(id, iconId) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Fermer les autres
+                document.querySelectorAll('.accordion-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.fa-chevron-down').forEach(el => el.style.transform = 'rotate(0deg)');
+                
+                content.classList.add('active');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // --- SECTORS LOGIC ---
+        const sectorData = {
+            sante: "« Triez vos patients par urgence et gérez vos RDV automatiquement. Vos médecins se concentrent sur le soin, pas sur la paperasse. »",
+            finance: "« Détectez les anomalies comptables, automatisez la relance client et qualifiez vos leads en assurance instantanément. »",
+            commerce: "« Ne perdez aucune vente à 3h du matin. Votre assistant IA conclut les ventes sur WhatsApp et met à jour votre stock. »",
+            services: "« Dites adieu aux tâches répétitives. Nous automatisons l'édition de vos devis, factures et contrats via des flux invisibles. »",
+            restauration: "« Prise de commande WhatsApp automatisée, gestion des réservations de tables et analyse prédictive de vos menus les plus rentables. »",
+            industrie: "« Maintenance prédictive de vos équipements, gestion des stocks matières premières en temps réel et optimisation de la chaîne logistique. »"
+        };
+
+        function changeSector(sector) {
+            const content = document.getElementById('sector-content');
+            content.style.opacity = 0;
+            
+            setTimeout(() => {
+                content.innerHTML = `<span class="highlight-text" style="font-size:1.5rem; margin-right:10px;">"</span>${sectorData[sector]}<span class="highlight-text" style="font-size:1.5rem; margin-left:10px;">"</span>`;
+                content.style.opacity = 1;
+                content.style.transition = 'opacity 0.4s ease';
+            }, 200);
+
+            document.querySelectorAll('.sector-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // --- ROI CALCULATOR LOGIC ---
+        function calculateROI() {
+            const employees = document.getElementById('employees').value;
+            const hours = document.getElementById('hours').value;
+            
+            // Hypothèse de salaire horaire moyen bas au Cameroun pour du travail administratif (ex: 1500 FCFA/h)
+            const hourlyRate = 1500; 
+            const daysPerYear = 250; // Jours ouvrés
+
+            const totalSaved = employees * hours * hourlyRate * daysPerYear;
+            
+            // Formatage du nombre avec espaces
+            const formattedResult = totalSaved.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            
+            document.getElementById('roi-result').innerText = formattedResult + " FCFA";
+        }
+        
+        // Initial Calculation
+        calculateROI();
+
+        // --- REVEAL ANIMATIONS ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -562,7 +816,7 @@
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.vision-card, .pack-card, .services-wrapper').forEach(el => {
+        document.querySelectorAll('.pack-card, .services-wrapper, .sector-box').forEach(el => {
             el.style.opacity = 0;
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
